@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Noto
+GenericName=Noto
+Comment=A simple note and todo taking app
+Comment[de]=Eine einfache Notizen und Todo-Anwendung
+Exec=noto %U
+Terminal=false
+Type=Application
+Categories=Qt;KDE;Multimedia;Video;
+Icon=noto
