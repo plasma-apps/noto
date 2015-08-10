@@ -39,6 +39,7 @@ ApplicationWindow {
     property string version: "0.1"
     property alias mainToolbar: mainToolbar
     property alias notesModel: notesModel
+    property alias mainStack: mainStack
 
     property QtObject mainPage
 
@@ -60,7 +61,7 @@ ApplicationWindow {
     
     statusBar: ToolBar { // for mobile we use toolbar in status bar as it is closer to fingers of user
         //visible: mainStack.depth > 0
-        visible: mainStack.currentPage != mainPage
+        //visible: mainStack.currentPage != mainPage
         Row {
             id: mainToolbar
             height: parent.height
@@ -71,6 +72,7 @@ ApplicationWindow {
             PlasmaComponents.ToolButton {
                 iconName: "draw-arrow-back"
                 //text: "Back" // We don't that do we ?
+                visible: mainStack.depth > 1
                 onClicked: mainStack.pop();
             }
         }

@@ -6,17 +6,6 @@ function getDatabase() {
 }
 
 // We want a unique id for notes
-function getUniqueId()
-{
-     var dateObject = new Date();
-     var uniqueId =
-          dateObject.getFullYear() + '' +
-          dateObject.getMonth() + '' +
-          dateObject.getDate() + '' +
-          dateObject.getTime();
-
-     return uniqueId;
-};
 
 // At the start of the application, we can initialize the tables we need if they haven't been created yet
 function initialize() {
@@ -41,7 +30,7 @@ function setNote(uid,title,txt,color,datetime) {
     var db = getDatabase();
     var res = "";
     db.transaction(function(tx) {
-        var rs = tx.executeSql('INSERT OR REPLACE INTO notes VALUES (?,?,?);', [uid,title,txt,color,datetime]);
+        var rs = tx.executeSql('INSERT OR REPLACE INTO notes VALUES (?,?,?,?,?);', [uid,title,txt,color,datetime]);
         if (rs.rowsAffected > 0) {
             res = "OK";
             //console.log ("Saved to database");

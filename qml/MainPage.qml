@@ -26,6 +26,8 @@ import QtQuick.Window 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
+import "helper.js" as HELPER
+
 PlasmaComponents.Page {
     id: mainPage
 
@@ -56,8 +58,17 @@ PlasmaComponents.Page {
         	id: notesTab
         }
     }
+
     Component.onCompleted: {
     	tabGroup.currentTab = notesTab;
+    }
+
+    PlasmaComponents.ToolButton {
+        id: createNew
+        parent: mainWindow.mainToolbar.parent
+        anchors.horizontalCenter: parent.horizontalCenter
+    	iconName: "list-add"
+        onClicked: mainWindow.mainStack.push(Qt.resolvedUrl("Note.qml"), {noteId: HELPER.getUniqueId(), noteColor: HELPER.getRandomColor()} )
     }
 
 }

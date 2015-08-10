@@ -52,6 +52,7 @@ PlasmaComponents.Page {
                 anchors.horizontalCenter: parent.horizontalCenter
 		onClicked: { 
 			console.debug("Clicked " + noteTitle + " with text: " + DB.getText(noteTitle,noteId))
+                        mainWindow.mainStack.push(Qt.resolvedUrl("Note.qml"), {noteTitle:noteTitle , noteText: DB.getText(noteTitle,noteId), noteId: noteId, noteColor: noteColor} )
 		}
                 enabled: true
 		Rectangle {
