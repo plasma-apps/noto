@@ -38,7 +38,7 @@ PlasmaComponents.Page {
     property string noteTitle
     property string noteId
 
-    Rectangle {
+    ColorChooser {
 	id: colorRec
         anchors.left: parent.left
         anchors.top: parent.top
@@ -47,6 +47,7 @@ PlasmaComponents.Page {
         width: height
         height: titleInput.height
         color: noteColor
+        z: 3
     }
     PlasmaComponents.TextField {
 	id: titleInput
@@ -56,6 +57,7 @@ PlasmaComponents.Page {
         text: noteTitle
         placeholderText: qsTr("Title of Note")
         width: parent.width - (colorRec.width + (3*units.smallSpacing))
+        z: 2
     }
     PlasmaComponents.TextArea {
     	id: textInput
@@ -66,6 +68,7 @@ PlasmaComponents.Page {
         height: parent.height - titleInput.height - (2*units.smallSpacing)
         text: noteText
         focus: true
+        z: 2
     }
     // Add Save Button to mainToolbar
     PlasmaComponents.ToolButton {
@@ -77,7 +80,20 @@ PlasmaComponents.Page {
     	onClicked: { 
                 if (titleInput.text == "") titleInput.text = HELPER.getCurrentDate();
 		DB.setNote(noteId,titleInput.text,textInput.text,colorRec.color,HELPER.getCurrentDate());
+                // Syntax Help: addNote(noteTitle,noteId,noteColor)
+		mainWindow.addNote(titleInput.text,noteId,String(colorRec.color));
+                noteTitle = titleInput.text
+		noteColor = String(colorRec.color)
 	}
     }
-  
+    PlasmaComponents.ToolButton {
+	id: removeBtn
+	parent: mainWindow.mainToolbar.parent
+	anchors.right: parent.right
+        iconName: "trash-empty"
+	onClicked: {
+                mainWindow.removeNote(noteTitle,noteId);
+        }
+	visible: mainWindow.notesModel.containsTitle(noteTitle)
+    } 
 }

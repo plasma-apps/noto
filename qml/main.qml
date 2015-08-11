@@ -47,6 +47,14 @@ ApplicationWindow {
         //console.debug("Adding Note: " + noteTitle + " with NoteId: " + noteId + " and color: " + noteColor)
 	notesModel.append({"noteTitle": noteTitle, "noteId": noteId, "noteColor": noteColor})
     }
+    
+    function removeNote(noteTitle,noteId) {
+	DB.remove(noteTitle,"note",noteId);
+        var contains = notesModel.contains(noteId);
+	if (contains[0]) {
+            notesModel.remove(contains[1])
+        }
+    }
   
     PlasmaComponents.PageStack {
         id: mainStack
@@ -64,8 +72,8 @@ ApplicationWindow {
         //visible: mainStack.currentPage != mainPage
         Row {
             id: mainToolbar
-            height: parent.height
-            width: parent.width
+            //height: parent.height
+            //width: parent.width
             //
             // Navigation
             //
@@ -87,6 +95,23 @@ ApplicationWindow {
 
    ListModel {
    	id: notesModel
+        
+        function contains(noteId) {
+            for (var i=0; i<count; i++) {
+                if (get(i).noteId == noteId)  {
+                    return [true, i];
+                }
+            }
+            return [false, i];
+        }
+        function containsTitle(noteTitle) {
+            for (var i=0; i<count; i++) {
+                if (get(i).noteTitle == noteTitle)  {
+                    return true;
+                }
+            }
+            return false;
+        }
    }
 
 }
