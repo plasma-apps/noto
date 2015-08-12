@@ -26,6 +26,7 @@ import QtQuick.Window 2.1
 
 import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.plasma.extras 2.0
+import org.kde.plasma.core 2.0
 
 import "db.js" as DB
 
@@ -112,6 +113,12 @@ ApplicationWindow {
             }
             return false;
         }
+   }
+   RemorsePopup {
+	id: remorsePopup
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.largeSpacing
+        z:99
    }
 
 }
