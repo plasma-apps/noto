@@ -41,6 +41,7 @@ ApplicationWindow {
     property alias mainToolbar: mainToolbar
     property alias notesModel: notesModel
     property alias mainStack: mainStack
+    property alias remorsePopup: remorsePopup
 
     property QtObject mainPage
 
@@ -118,7 +119,11 @@ ApplicationWindow {
 	id: remorsePopup
         anchors.bottom: parent.bottom
         anchors.bottomMargin: units.largeSpacing
+        //dialog: true //enable to replace timer based RemorsePopup with Yes/No Dialog
         z:99
+        onTriggered: {
+		if (mainStack.currentPage != mainPage) mainStack.pop()
+        }
    }
 
 }

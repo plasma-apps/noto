@@ -69,7 +69,7 @@ Column {
         remorse.text = title
         remorse.callback = callback
         remorse.timer = timeout === undefined ? 5000 : timeout
-        countdownTimer.restart()
+        if (!dialog) { countdownTimer.restart(); circle.start() }
         state = "active"
     }
 
@@ -145,12 +145,20 @@ Column {
 		clip: true
 		height: parent.height
                 width: parent.width
+		LoadCircle {
+			id: circle
+			anchors.verticalCenter: parent.verticalCenter
+			loadtimer: remorse.timer
+                        height: parent.height
+                        inverted: true
+		}
 		PlasmaComponents.Label {
 			id: timerLbl
 			font.pointSize: parent.height / 2
-                        font.bold: true
-                        anchors.left: parent.left
-			text: remorse.timer
+			font.bold: true
+			anchors.centerIn: circle
+			text: Math.ceil(remorse.msecRemaining/1000).toFixed(0)
+			visible: !remorse.dialog
 		}
 		PlasmaComponents.Label {
 			id: lbl
@@ -158,7 +166,7 @@ Column {
                         anchors.left: timerLbl.right
                         anchors.leftMargin: units.largeSpacing
                         anchors.verticalCenter: parent.verticalCenter
-			text: "Remove xyz ?" //remorse.text
+			text: remorse.text
 		}
                 Row {
                 anchors.right: parent.right

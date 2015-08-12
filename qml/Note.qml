@@ -92,7 +92,7 @@ PlasmaComponents.Page {
 	anchors.right: parent.right
         iconName: "trash-empty"
 	onClicked: {
-                mainWindow.removeNote(noteTitle,noteId);
+                mainWindow.remorsePopup.execute("Delete " + noteTitle, function() { mainWindow.removeNote(noteTitle,noteId) } )
         }
 	visible: mainWindow.notesModel.containsTitle(noteTitle)
     } 
