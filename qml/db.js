@@ -43,14 +43,13 @@ function setNote(uid,title,txt,color,datetime) {
     // The function returns “OK” if it was successful, or “Error” if it wasn't
     return res;
 }
-// TODO: figure that out
-// This function is used to write todos into the database
-function setTodo(title,todo,status,uid,color,clearCount,todosCount) {
+
+// This function is used to write todoList into the database
+function setTodoList(title,lid,color,clearCount,todosCount) {
     var db = getDatabase();
     var res = "";
-    //console.debug("todo:" + todo + " uid:" + uid)
     db.transaction(function(tx) {
-        var rs = tx.executeSql('INSERT OR REPLACE INTO todos VALUES (?,?,?,?);', [title,todo,status,uid,color,clearCount,todosCount]);
+        var rs = tx.executeSql('INSERT OR REPLACE INTO todolist VALUES (?,?,?,?,?);', [title,lid,color,clearCount,todosCount]);
         //console.log(rs.rowsAffected)
         if (rs.rowsAffected > 0) {
             res = "OK";
@@ -64,6 +63,7 @@ function setTodo(title,todo,status,uid,color,clearCount,todosCount) {
     // The function returns “OK” if it was successful, or “Error” if it wasn't
     return res;
 }
+// TODO: Add setTodo function for writing the actual todos into todos database
 
 // This function is used to retrieve a notes from the database
 function getNotes() {
@@ -79,13 +79,14 @@ function getNotes() {
 }
 
 // This function is used to retrieve todos from the database
-function getTodos() {
+function getTodoList() {
     var db = getDatabase();
     var respath="";
     db.transaction(function(tx) {
-        var rs = tx.executeSql('SELECT DISTINCT title,uid FROM todos;');
+        var rs = tx.executeSql('SELECT DISTINCT title,lid,color,clearCount,todosCount FROM todolist;');
         for (var i = 0; i < rs.rows.length; i++) {
-            root.addTodoTitle(rs.rows.item(i).title)
+            // Syntax help: addTodoList(todoListTitle,lId,todoListColor,todoListClearCount,todoListTodosCount)
+            mainWindow.addTodoList(rs.rows.item(i).title,rs.rows.item(i).lid,rs.rows.item(i).color,rs.rows.item(i).clearCount,rs.rows.item(i).todosCount)
         }
     })
 }

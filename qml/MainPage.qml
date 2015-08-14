@@ -41,7 +41,7 @@ PlasmaComponents.Page {
         }
         PlasmaComponents.TabButton {
              text: qsTr("Todos")
-             //tab: todosTab
+             tab: todosTab
         }
     }
 
@@ -53,10 +53,12 @@ PlasmaComponents.Page {
 		top: parent.top
 		bottom: tabBar.top
 	}
-        // TODO: Add Notes and Todo Tabs
         NotesTab {
         	id: notesTab
         }
+        TodosTab {
+		id: todosTab
+	}
     }
 
     Component.onCompleted: {

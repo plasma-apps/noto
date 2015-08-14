@@ -40,6 +40,7 @@ ApplicationWindow {
     property string version: "0.1"
     property alias mainToolbar: mainToolbar
     property alias notesModel: notesModel
+    property alias todoListModel: todoListModel
     property alias mainStack: mainStack
     property alias remorsePopup: remorsePopup
 
@@ -57,7 +58,11 @@ ApplicationWindow {
             notesModel.remove(contains[1])
         }
     }
-  
+    
+    function addTodoList(todoListTitle,lId,todoListColor,todoListClearCount,todoListTodosCount) {
+	todoListModel.append({"todoListTitle": todoListTitle, "lId": lId, "todoListColor": todoListColor, "todoListClearCount": todoListClearCount, "todoListTodosCount": todoListTodosCount})
+    }
+    
     PlasmaComponents.PageStack {
         id: mainStack
         anchors.fill: parent
@@ -92,6 +97,7 @@ ApplicationWindow {
         // Intitialize DB
         DB.initialize();
         DB.getNotes();
+        DB.getTodoList();
     }
 
 
@@ -109,6 +115,26 @@ ApplicationWindow {
         function containsTitle(noteTitle) {
             for (var i=0; i<count; i++) {
                 if (get(i).noteTitle == noteTitle)  {
+                    return true;
+                }
+            }
+            return false;
+        }
+   }
+   ListModel {
+   	id: todoListModel
+        
+        function contains(lId) {
+            for (var i=0; i<count; i++) {
+                if (get(i).lId == lId)  {
+                    return [true, i];
+                }
+            }
+            return [false, i];
+        }
+        function containsTitle(todoListTitle) {
+            for (var i=0; i<count; i++) {
+                if (get(i).todoListTitle == todoListTitle)  {
                     return true;
                 }
             }
