@@ -63,6 +63,8 @@ ApplicationWindow {
 	todoListModel.append({"todoListTitle": todoListTitle, "lId": lId, "todoListColor": todoListColor, "todoListClearCount": todoListClearCount, "todoListTodosCount": todoListTodosCount})
     }
     
+   // TODO: removeTodoList
+    
     PlasmaComponents.PageStack {
         id: mainStack
         anchors.fill: parent
