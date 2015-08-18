@@ -77,6 +77,8 @@ PlasmaComponents.Page {
 
                 onClicked: {
                     //console.debug("Clicked " + todoListTitle + " with text: " + DB.getText(todoListTitle,lId))
+                    mainWindow.todosModel.clear();
+                    DB.getTodos(lId);
                     mainWindow.mainStack.push(Qt.resolvedUrl("Todo.qml"), {todoListTitle:todoListTitle ,lId: lId, todoListColor: todoListColor} )
                 }
 

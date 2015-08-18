@@ -29,6 +29,7 @@ import org.kde.plasma.extras 2.0
 import org.kde.plasma.core 2.0
 
 import "db.js" as DB
+import "helper.js" as HELPER
 
 ApplicationWindow {
     id: mainWindow
@@ -41,6 +42,7 @@ ApplicationWindow {
     property alias mainToolbar: mainToolbar
     property alias notesModel: notesModel
     property alias todoListModel: todoListModel
+    property alias todosModel: todosModel
     property alias mainStack: mainStack
     property alias remorsePopup: remorsePopup
 
@@ -60,10 +62,14 @@ ApplicationWindow {
     }
     
     function addTodoList(todoListTitle,lId,todoListColor,todoListClearCount,todoListTodosCount) {
-	todoListModel.append({"todoListTitle": todoListTitle, "lId": lId, "todoListColor": todoListColor, "todoListClearCount": todoListClearCount, "todoListTodosCount": todoListTodosCount})
+        todoListModel.append({"todoListTitle": todoListTitle, "lId": lId, "todoListColor": todoListColor, "todoListClearCount": todoListClearCount, "todoListTodosCount": todoListTodosCount})
     }
     
    // TODO: removeTodoList
+
+    function addTodo(todoTitle,lId,todoStatus,todoUid) {
+        todosModel.append({"todoTitle": todoTitle, "lId": lId, "todoStatus": todoStatus, "todoUid": todoUid})
+    }
     
     PlasmaComponents.PageStack {
         id: mainStack
@@ -141,6 +147,41 @@ ApplicationWindow {
                 }
             }
             return false;
+        }
+   }
+   ListModel {
+    id: todosModel
+
+        function contains(uid) {
+            for (var i=0; i<count; i++) {
+                if (get(i).todoUid == uid)  {
+                    return [true, i];
+                }
+            }
+            return [false, i];
+        }
+        function containsTitle(todoTitle) {
+            for (var i=0; i<count; i++) {
+                if (get(i).todoTitle == todoTitle)  {
+                    return true;
+                }
+            }
+            return false;
+        }
+        function countClear() {
+            var cleared = 0;
+            for (var i=0; i<count; i++) {
+                if (get(i).todoStatus === true)  {
+                    cleared = cleared + 1
+                }
+            }
+            return cleared;
+        }
+        function saveTodos(lid) {
+            for (var i=0; i<count; i++) {
+                // Syntax help: setTodo(title,lid,status,uid)
+                DB.setTodo(get(i).todoTitle,lid,get(i).todoStatus,HELPER.getUniqueId())
+            }
         }
    }
    RemorsePopup {
