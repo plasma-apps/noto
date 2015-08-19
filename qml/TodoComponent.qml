@@ -31,6 +31,7 @@ import "db.js" as DB
 import "helper.js" as HELPER
 
 PlasmaComponents.ListItem {
+    id: rootItem
 
     property string title
     property bool status
@@ -44,6 +45,9 @@ PlasmaComponents.ListItem {
         height: parent.height
         font.strikeout: status
         readOnly: status
+        onTextChanged: {
+            rootItem.title = text;
+        }
     }
     PlasmaComponents.CheckBox {
         id: statusBox
@@ -51,8 +55,8 @@ PlasmaComponents.ListItem {
         anchors.right: parent.right
         anchors.rightMargin: units.smallSpacing
         onClicked: {
-            if (checked) status = true
-            else status = false
+            if (checked) status = true;
+            else status = false;
         }
     }
 

@@ -68,8 +68,10 @@ function setTodoList(title,lid,color,clearCount,todosCount) {
 function setTodo(title,lid,status,uid) {
     var db = getDatabase();
     var res = "";
+    if (status === true) status = 1
+    else status = 0;
     db.transaction(function(tx) {
-        var rs = tx.executeSql('INSERT OR REPLACE INTO todos VALUES (?,?,?,?,?);', [title,lid,status,uid]);
+        var rs = tx.executeSql('INSERT OR REPLACE INTO todos VALUES (?,?,?,?);', [lid,title,status,uid]);
         //console.log(rs.rowsAffected)
         if (rs.rowsAffected > 0) {
             res = "OK";
@@ -142,8 +144,10 @@ function getTodos(lid) {
                 //console.debug(row['todo'])
                 //console.debug(row['status'])
                 //console.debug(row['uid'])
+                if (row['status'] === 1) todoStatus = true
+                else todoStatus = false
                 // Syntax help : addTodo(todoTitle,lId,todoStatus,todoUid)
-                mainWindow.addTodo(row['todo'],lid,row['status'],row['uid'])
+                mainWindow.addTodo(row['todo'],lid,todoStatus,row['uid'])
             } else {
                 todoText = "Unknown"
                 todoStatus = 0

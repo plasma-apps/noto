@@ -148,6 +148,13 @@ ApplicationWindow {
             }
             return false;
         }
+        function changeTitle(lId,newTitle) {
+            for (var i=0; i<count; i++) {
+                if (get(i).lId == lId)  {
+                    setProperty(i,"todoListTitle", newTitle)
+                }
+            }
+        }
    }
    ListModel {
     id: todosModel
@@ -180,7 +187,21 @@ ApplicationWindow {
         function saveTodos(lid) {
             for (var i=0; i<count; i++) {
                 // Syntax help: setTodo(title,lid,status,uid)
-                DB.setTodo(get(i).todoTitle,lid,get(i).todoStatus,HELPER.getUniqueId())
+                DB.setTodo(get(i).todoTitle,lid,get(i).todoStatus,get(i).todoUid)
+            }
+        }
+        function changeTodo(uid,newTodo) {
+            for (var i=0; i<count; i++) {
+                if (get(i).todoUid == uid)  {
+                    setProperty(i,"todoTitle", newTodo)
+                }
+            }
+        }
+        function changeStatus(uid,newStatus) {
+            for (var i=0; i<count; i++) {
+                if (get(i).todoUid == uid)  {
+                    setProperty(i,"todoStatus", newStatus)
+                }
             }
         }
    }

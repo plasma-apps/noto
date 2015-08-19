@@ -96,9 +96,11 @@ PlasmaComponents.Page {
                         contextMenu = contextMenuComponent.createObject(myListItem)
                     contextMenu.open()
                 }
-
-                onClicked: {
-                    // TODO: rename or nothing
+                onTitleChanged: {
+                    mainWindow.todosModel.changeTodo(todoUid,title)
+                }
+                onStatusChanged: {
+                    mainWindow.todosModel.changeStatus(todoUid,status)
                 }
             }
 
@@ -143,7 +145,13 @@ PlasmaComponents.Page {
             if (titleInput.text == "") titleInput.text = HELPER.getCurrentDate();
             DB.setTodoList(titleInput.text,lId,colorRec.color,mainWindow.todosModel.countClear(),mainWindow.todosModel.count); //TODO: ClearsCount, TodoCount figure out
             // Syntax Help: addTodoList(todoListTitle,lId,todoListColor,todoListClearCount,todoListTodosCount)
-            mainWindow.addTodoList(titleInput.text,lId,String(colorRec.color),mainWindow.todosModel.countClear(),mainWindow.todosModel.count);  //TODO: ClearCount, TodoCount
+            if (! mainWindow.todoListModel.contains(lId)[0]) {
+                mainWindow.addTodoList(titleInput.text,lId,String(colorRec.color),mainWindow.todosModel.countClear(),mainWindow.todosModel.count);  //TODO: ClearCount, TodoCount
+            }
+            else {
+                //TODO Replace name
+                mainWindow.todoListModel.changeTitle(lId,titleInput.text)
+            }
             todoListTitle = titleInput.text
             todoListColor = String(colorRec.color)
             mainWindow.todosModel.saveTodos(lId);
@@ -158,5 +166,16 @@ PlasmaComponents.Page {
             mainWindow.remorsePopup.execute("Delete " + todoListTitle, function() { mainWindow.removeTodoList(todoListTitle,lId) }, 10000 )
         }
         visible: mainWindow.todoListModel.contains(lId)
+    }
+    PlasmaComponents.ToolButton {
+        id: addTodoBtn
+        parent: mainWindow.mainToolbar.parent
+        anchors.left: saveBtn.right
+        anchors.leftMargin: units.largeSpacing
+        iconName: "list-add"
+        onClicked: {
+            // Syntax help: addTodo(todoTitle,lId,todoStatus,todoUid)
+            mainWindow.addTodo("Todo",lId,false,HELPER.getUniqueId());
+        }
     }
 }

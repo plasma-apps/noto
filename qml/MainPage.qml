@@ -70,7 +70,12 @@ PlasmaComponents.Page {
         parent: mainWindow.mainToolbar.parent
         anchors.horizontalCenter: parent.horizontalCenter
     	iconName: "list-add"
-        onClicked: mainWindow.mainStack.push(Qt.resolvedUrl("Note.qml"), {noteId: HELPER.getUniqueId(), noteColor: HELPER.getRandomColor()} )
+        onClicked: {
+            if (tabGroup.currentTab === notesTab)
+                mainWindow.mainStack.push(Qt.resolvedUrl("Note.qml"), {noteId: HELPER.getUniqueId(), noteColor: HELPER.getRandomColor()} )
+            else
+                mainWindow.mainStack.push(Qt.resolvedUrl("Todo.qml"), {lId: HELPER.getUniqueId(), todoListColor: HELPER.getRandomColor()} )
+        }
     }
 
 }
