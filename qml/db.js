@@ -63,7 +63,27 @@ function setTodoList(title,lid,color,clearCount,todosCount) {
     // The function returns “OK” if it was successful, or “Error” if it wasn't
     return res;
 }
-// TODO: Add setTodo function for writing the actual todos into todos database
+
+function updateTodoListCount(lid,clearCount,todosCount) {
+    var db = getDatabase();
+    var res = "";
+    db.transaction(function(tx) {
+        //SQlite Syntax help: UPDATE Cars SET Name='Skoda Octavia' WHERE Id=3;
+        var rs = tx.executeSql('UPDATE todolist SET clearCount=(?),todosCount=(?) WHERE lid=(?);', [clearCount,todosCount,lid]);
+        //console.log(rs.rowsAffected)
+        if (rs.rowsAffected > 0) {
+            res = "OK";
+            //console.log ("Saved to database");
+        } else {
+            res = "Error";
+            //console.log ("Error saving to database");
+        }
+    }
+    );
+    // The function returns “OK” if it was successful, or “Error” if it wasn't
+    return res;   
+}
+
 // This function is used to write or replace todos into the database
 function setTodo(title,lid,status,uid) {
     var db = getDatabase();
@@ -175,14 +195,14 @@ function remove(title,type,uid) {
             var rs = tx.executeSql('DELETE FROM todos WHERE title=?;' , [title]);
         })
     }
-}
+}title
 
 // This function is used to remove todo entry from a todo in the database
-function removeTodoEntry(title,todo,uid) {
+function removeTodoEntry(lid,todo,uid) {
     var db = getDatabase();
     var respath="";
     db.transaction(function(tx) {
-        var rs = tx.executeSql('DELETE FROM todos WHERE title=? AND todo=? AND uid=?;' , [title,todo,uid]);
+        var rs = tx.executeSql('DELETE FROM todos WHERE lid=? AND todo=? AND uid=?;' , [lid,todo,uid]);
     })
 }
 

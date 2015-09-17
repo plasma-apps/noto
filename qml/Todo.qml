@@ -81,7 +81,7 @@ PlasmaComponents.Page {
                 ListView.remove.connect(removal.deleteAnimation.start)
                 removal.parent = contentItem
                 removal.height = contentItem.height
-                removal.execute("Delete " + todoTitle, function() { mainWindow.removeTodoList(todoTitle,todoUid) }, 10000 )
+                removal.execute("Delete " + todoTitle, function() { mainWindow.removeTodoEntry(lId,todoTitle,todoUid) }, 10000 )
             }
 
             TodoComponent {
@@ -155,6 +155,7 @@ PlasmaComponents.Page {
             todoListTitle = titleInput.text
             todoListColor = String(colorRec.color)
             mainWindow.todosModel.saveTodos(lId);
+            mainWindow.updateTodoList(lId);
         }
     }
     PlasmaComponents.ToolButton {

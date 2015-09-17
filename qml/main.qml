@@ -67,6 +67,21 @@ ApplicationWindow {
     
    // TODO: removeTodoList
 
+    function updateTodoList(lId) {
+        DB.updateTodoListCount(lId,mainWindow.todosModel.countClear(),mainWindow.todosModel.count);
+        todoListModel.updateCount(lId,mainWindow.todosModel.countClear(),mainWindow.todosModel.count);
+    }
+
+    function removeTodoEntry(lId,todo,todoUid) {
+        DB.removeTodoEntry(lId,todo,todoUid);
+        var contains = todosModel.contains(todoUid);
+        if (contains[0]) {
+            todosModel.remove(contains[1])
+        }
+        //todosModel.saveTodos(lId) // necessary for the status changes !? TODO: Validate if that does not slow down things too much
+        updateTodoList(lId); // This should work faster
+    }
+
     function addTodo(todoTitle,lId,todoStatus,todoUid) {
         todosModel.append({"todoTitle": todoTitle, "lId": lId, "todoStatus": todoStatus, "todoUid": todoUid})
     }
@@ -152,6 +167,14 @@ ApplicationWindow {
             for (var i=0; i<count; i++) {
                 if (get(i).lId == lId)  {
                     setProperty(i,"todoListTitle", newTitle)
+                }
+            }
+        }
+        function updateCount(lId,todoListClearCount,todoListTodosCount) {
+            for (var i=0; i<count; i++) {
+                if (get(i).lId == lId) {
+                    setProperty(i,"todoListClearCount",todoListClearCount);
+                    setProperty(i,"todoListTodosCount",todoListTodosCount);
                 }
             }
         }
