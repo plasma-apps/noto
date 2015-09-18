@@ -192,7 +192,8 @@ function remove(title,type,uid) {
     }
     else if  (type === "todo") {
         db.transaction(function(tx) {
-            var rs = tx.executeSql('DELETE FROM todos WHERE title=?;' , [title]);
+            var rs0 = tx.executeSql('DELETE FROM todolist WHERE lid=?;' , [uid]);
+            var rs = tx.executeSql('DELETE FROM todos WHERE lid=?;' , [uid]);
         })
     }
 }title

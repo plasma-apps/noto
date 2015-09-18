@@ -64,8 +64,14 @@ ApplicationWindow {
     function addTodoList(todoListTitle,lId,todoListColor,todoListClearCount,todoListTodosCount) {
         todoListModel.append({"todoListTitle": todoListTitle, "lId": lId, "todoListColor": todoListColor, "todoListClearCount": todoListClearCount, "todoListTodosCount": todoListTodosCount})
     }
-    
-   // TODO: removeTodoList
+
+    function removeTodoList(title,lId) {
+        DB.remove(title,"todo",lId)
+        var contains = todoListModel.contains(lId)
+        if (contains[0]) {
+            todoListModel.remove(contains[1])
+        }
+    }
 
     function updateTodoList(lId) {
         DB.updateTodoListCount(lId,mainWindow.todosModel.countClear(),mainWindow.todosModel.count);
