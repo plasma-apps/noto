@@ -83,7 +83,7 @@ PlasmaComponents.Page {
 
                 Rectangle {
                     id: colorRec
-                    width: 8
+                    width: parent.width / 24
                     anchors.left: parent.left
                     height: parent.height
                     color: noteColor

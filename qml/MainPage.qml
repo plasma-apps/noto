@@ -48,17 +48,17 @@ PlasmaComponents.Page {
     PlasmaComponents.TabGroup {
         id: tabGroup
         anchors {
-		left: parent.left
-		right: parent.right
-		top: parent.top
-		bottom: tabBar.top
-	}
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: tabBar.top
+        }
         NotesTab {
-        	id: notesTab
+            id: notesTab
         }
         TodosTab {
-		id: todosTab
-	}
+            id: todosTab
+        }
     }
 
     Component.onCompleted: {
@@ -71,10 +71,14 @@ PlasmaComponents.Page {
         anchors.horizontalCenter: parent.horizontalCenter
     	iconName: "list-add"
         onClicked: {
+            console.debug("[MainPage.qml] tabGroup.currentTab = " + tabGroup.currentTab)
             if (tabGroup.currentTab === notesTab)
                 mainWindow.mainStack.push(Qt.resolvedUrl("Note.qml"), {noteId: HELPER.getUniqueId(), noteColor: HELPER.getRandomColor()} )
-            else
+            else if (tabGroup.currentTab === todosTab) {
+                // Don't forget to purge todosModel otherwise you might end up with todos from another list
+                mainWindow.todosModel.clear();
                 mainWindow.mainStack.push(Qt.resolvedUrl("Todo.qml"), {lId: HELPER.getUniqueId(), todoListColor: HELPER.getRandomColor()} )
+            }
         }
     }
 

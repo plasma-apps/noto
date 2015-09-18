@@ -84,11 +84,19 @@ PlasmaComponents.Page {
 
                 Rectangle {
                     id: colorRec
-                    width: 8
+                    width: parent.width / 24
                     anchors.left: parent.left
                     height: parent.height
                     border.color: todoListColor
                     border.width: 1
+                    Rectangle {
+                        id: colorRecFill
+                        // Fill only as much as todos are checked
+                        anchors.left: parent.left
+                        height: parent.height
+                        width: (todoListClearCount / todoListTodosCount) * parent.width
+                        color: todoListColor
+                    }
                 }
                 PlasmaComponents.Label {
                     height: implicitHeight
